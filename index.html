@@ -1,16 +1,280 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Logo Carousel</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Logo Carousel</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background: #242424;
+    }
+
+    .container {
+      width: 312px;
+      height: 312px;
+      background-color: #1A1A1A;
+      overflow: hidden;
+      position: relative;
+      padding-left: 24px;
+      padding-right: 24px;
+    }
+
+    .track {
+      display: flex;
+      flex-direction: column;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      animation: scroll-up 1.83s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite paused;
+      will-change: transform;
+    }
+
+    @keyframes scroll-up {
+      /* Row 1 to Row 2: 0% - 0.55% (10ms pause), 0.55% - 33.33% (600ms transition) */
+      0%, 0.55% {
+        transform: translateY(0);
+      }
+      33.33% {
+        transform: translateY(44px);
+      }
+      /* Row 2 to Row 3: 33.33% - 33.88% (10ms pause), 33.88% - 66.67% (600ms transition) */
+      33.88% {
+        transform: translateY(44px);
+      }
+      66.67% {
+        transform: translateY(88px);
+      }
+      /* Row 3 to Row 1: 66.67% - 67.21% (10ms pause), 67.21% - 100% (600ms transition) */
+      67.21% {
+        transform: translateY(88px);
+      }
+      100% {
+        transform: translateY(132px);
+      }
+    }
+
+    .row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      height: 44px;
+      flex-shrink: 0;
+    }
+
+    /* Row 1: Centered vertically in container (visible) */
+    .row:nth-child(1) {
+      margin-top: 134px; /* (312px - 44px) / 2 = 134px */
+    }
+
+    /* Row 2: 24px above Row 1 (hidden) - Row 1 starts at 134px, Row 2 should end at 110px (134px - 24px), so starts at 66px */
+    .row:nth-child(2) {
+      margin-top: -68px; /* 66px - 134px = -68px */
+    }
+
+    /* Row 3: 24px below Row 1 (hidden) - Row 1 ends at 178px (134px + 44px), Row 3 starts at 202px (178px + 24px) */
+    .row:nth-child(3) {
+      margin-top: 92px; /* Row 2 ends at 110px (66px + 44px), so 202px - 110px = 92px */
+    }
+
+    /* Duplicate Row 1: Below Row 3 (hidden) */
+    .row:nth-child(4) {
+      margin-top: 24px;
+    }
+
+    /* Row-specific fade animations */
+    .row:nth-child(1) {
+      animation: row1-fade 1.83s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite paused;
+      opacity: 1;
+    }
+    
+    .row:nth-child(2) {
+      animation: row2-fade 1.83s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite paused;
+      opacity: 0;
+    }
+    
+    .row:nth-child(3) {
+      animation: row3-fade 1.83s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite paused;
+      opacity: 0;
+    }
+    
+    @keyframes row1-fade {
+      /* Row 1 visible at start and end (after Row 3) */
+      0%, 0.55% {
+        opacity: 1;
+      }
+      33.33% {
+        opacity: 0;
+      }
+      67.21% {
+        opacity: 0;
+      }
+      73% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+    
+    @keyframes row2-fade {
+      /* Row 2 visible between Row 1 and Row 3 */
+      0%, 33.33%, 33.88% {
+        opacity: 0;
+      }
+      40% {
+        opacity: 1;
+      }
+      66.67% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 0;
+      }
+    }
+    
+    @keyframes row3-fade {
+      /* Row 3 visible between Row 2 and Row 1 */
+      0%, 66.67%, 67.21% {
+        opacity: 0;
+      }
+      73% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+      }
+    }
+
+    .logo {
+      height: 10px;
+      width: auto;
+      object-fit: contain;
+      filter: brightness(0) saturate(100%) invert(69%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(1.1) contrast(1);
+      animation: logo-fade-stagger 1.83s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite paused;
+      will-change: opacity, transform;
+      backface-visibility: hidden;
+    }
+
+    .logo:nth-child(1) {
+      animation-delay: 0ms;
+    }
+
+    .logo:nth-child(2) {
+      animation-delay: 2ms;
+    }
+
+    .logo:nth-child(3) {
+      animation-delay: 4ms;
+    }
+
+    .logo:nth-child(4) {
+      animation-delay: 6ms;
+    }
+
+    @keyframes logo-fade-stagger {
+      /* Row 1 logos: fade out when transitioning to Row 2 */
+      0%, 0.55% {
+        opacity: 1;
+        transform: translateY(0) translateZ(0);
+      }
+      15% {
+        opacity: 0.8;
+        transform: translateY(8px) translateZ(0);
+      }
+      33.33% {
+        opacity: 0;
+        transform: translateY(44px) translateZ(0);
+      }
+      /* Row 2 logos: fade in from Row 1, then fade out when transitioning to Row 3 */
+      33.33%, 33.88% {
+        opacity: 0;
+        transform: translateY(44px) translateZ(0);
+      }
+      38% {
+        opacity: 0.2;
+        transform: translateY(52px) translateZ(0);
+      }
+      40% {
+        opacity: 1;
+        transform: translateY(44px) translateZ(0);
+      }
+      50% {
+        opacity: 1;
+        transform: translateY(44px) translateZ(0);
+      }
+      66.67% {
+        opacity: 0;
+        transform: translateY(88px) translateZ(0);
+      }
+      /* Row 3 logos: fade in from Row 2, then fade out when transitioning back to Row 1 */
+      66.67%, 67.21% {
+        opacity: 0;
+        transform: translateY(88px) translateZ(0);
+      }
+      71% {
+        opacity: 0.2;
+        transform: translateY(96px) translateZ(0);
+      }
+      73% {
+        opacity: 1;
+        transform: translateY(88px) translateZ(0);
+      }
+      83% {
+        opacity: 1;
+        transform: translateY(88px) translateZ(0);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(132px) translateZ(0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="track">
+      <!-- Row 1: Perplexity, Anthropic, Grok, OpenAI -->
+      <div class="row">
+        <img src="public/assets/Perplexity.svg" alt="Perplexity" class="logo" style="--logo-index: 0;">
+        <img src="public/assets/Anthropic.svg" alt="Anthropic" class="logo" style="--logo-index: 1;">
+        <img src="public/assets/Grok.svg" alt="Grok" class="logo" style="--logo-index: 2;">
+        <img src="public/assets/OpenAI.svg" alt="OpenAI" class="logo" style="--logo-index: 3;">
+      </div>
+      
+      <!-- Row 2: Cursor, Figma, Unicorn, Supabase -->
+      <div class="row">
+        <img src="public/assets/Cursor.svg" alt="Cursor" class="logo" style="--logo-index: 0;">
+        <img src="public/assets/Figma.svg" alt="Figma" class="logo" style="--logo-index: 1;">
+        <img src="public/assets/Unicorn.svg" alt="Unicorn" class="logo" style="--logo-index: 2;">
+        <img src="public/assets/Supabase.svg" alt="Supabase" class="logo" style="--logo-index: 3;">
+      </div>
+      
+      <!-- Row 3: Contra, MagicPath, Supabase, Framer -->
+      <div class="row">
+        <img src="public/assets/Contra.svg" alt="Contra" class="logo" style="--logo-index: 0;">
+        <img src="public/assets/MagicPath.svg" alt="MagicPath" class="logo" style="--logo-index: 1;">
+        <img src="public/assets/Paper.svg" alt="Paper" class="logo" style="--logo-index: 2;">
+        <img src="public/assets/Framer.svg" alt="Framer" class="logo" style="--logo-index: 3;">
+      </div>
+      
+      <!-- Duplicate Row 1 for seamless loop -->
+      <div class="row">
+      </div>
+    </div>
+  </div>
+</body>
 </html>
-
-
-

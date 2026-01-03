@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Logo Carousel Test</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 40px;
+      background: #242424;
+      color: white;
+      font-family: system-ui, -apple-system, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 40px;
+    }
+    
+    .test-container {
+      width: 312px;
+      height: 44px;
+      background: #1a1a1a;
+      border: 2px solid #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      padding: 0 10px;
+    }
+    
+    .test-logo {
+      height: 30px;
+      width: auto;
+      filter: brightness(0) invert(0.69);
+    }
+    
+    h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+    
+    .status {
+      padding: 10px 20px;
+      background: #333;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Logo Carousel Test</h1>
+  <div class="status">If you see logos below, the setup is working!</div>
+  
+  <div class="test-container">
+    <img src="public/assets/Perplexity.svg" alt="Perplexity" class="test-logo">
+    <img src="public/assets/OpenAI.svg" alt="OpenAI" class="test-logo">
+    <img src="public/assets/Grok.svg" alt="Grok" class="test-logo">
+    <img src="public/assets/Anthropic.svg" alt="Anthropic" class="test-logo">
+  </div>
+  
+  <div style="text-align: center; color: #888;">
+    <p>Container: 312×44px</p>
+    <p>Background: #1a1a1a</p>
+    <p>If logos don't show, check browser console (F12)</p>
+  </div>
+</body>
+</html>
+
