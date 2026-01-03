@@ -1,0 +1,138 @@
+.logo-carousel {
+  width: 312px; /* Container width */
+  height: 44px; /* Container height */
+  background-color: #1a1a1a; /* Container background */
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 2px;
+}
+
+.logo-carousel--empty {
+  text-align: center;
+  color: #666;
+  padding: 1rem;
+  height: auto;
+}
+
+.logo-carousel__wrapper {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.logo-carousel__track {
+  display: flex;
+  flex-direction: column;
+  animation: scroll-vertical var(--animation-duration, 1800ms) cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  will-change: transform;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+@keyframes scroll-vertical {
+  /* For 3 rows with 4ms pause + 600ms transition each */
+  /* Row 1: 0% - 0.22% (4ms pause), 0.22% - 33.33% (600ms transition to row 2) */
+  /* Row 2: 33.33% - 33.55% (4ms pause), 33.55% - 66.67% (600ms transition to row 3) */
+  /* Row 3: 66.67% - 66.89% (4ms pause), 66.89% - 100% (600ms transition to duplicate row 1) */
+  
+  0% {
+    transform: translateY(0); /* Row 1 centered */
+  }
+  0.22% {
+    transform: translateY(0); /* End of row 1 pause (4ms) */
+  }
+  33.33% {
+    transform: translateY(-44px); /* Row 2 (after 600ms transition) */
+  }
+  33.55% {
+    transform: translateY(-44px); /* End of row 2 pause (4ms) */
+  }
+  66.67% {
+    transform: translateY(-88px); /* Row 3 (after 600ms transition) */
+  }
+  66.89% {
+    transform: translateY(-88px); /* End of row 3 pause (4ms) */
+  }
+  100% {
+    transform: translateY(-132px); /* Duplicate row 1 (after 600ms transition) */
+  }
+}
+
+.logo-carousel__row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px; /* 24px spacing between logos */
+  flex-shrink: 0;
+  height: 44px;
+  min-height: 44px;
+  width: 100%;
+  padding: 0;
+  position: relative;
+}
+
+.logo-carousel__item {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  position: relative;
+  /* Staggered animation synchronized with track */
+  animation: logo-stagger var(--animation-duration, 1800ms) cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  animation-delay: calc(var(--logo-index, 0) * var(--stagger-delay, 30ms));
+  animation-fill-mode: both;
+}
+
+@keyframes logo-stagger {
+  /* Pause periods - no additional movement */
+  0%, 0.22%, 33.33%, 33.55%, 66.67%, 66.89% {
+    transform: translateY(0);
+  }
+  /* Transition periods - left logos move slightly ahead */
+  /* Row 1 to Row 2: left logo (index 0) gets -4px, index 1 gets -3px, index 2 gets -2px, index 3 gets -1px */
+  0.22%, 33.33% {
+    transform: translateY(calc(-4px + var(--logo-index, 0) * 1px));
+  }
+  /* Row 2 to Row 3 */
+  33.55%, 66.67% {
+    transform: translateY(calc(-4px + var(--logo-index, 0) * 1px));
+  }
+  /* Row 3 to Row 1 */
+  66.89%, 100% {
+    transform: translateY(calc(-4px + var(--logo-index, 0) * 1px));
+  }
+}
+
+.logo-carousel__image {
+  height: 100%;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  object-position: center;
+  /* SVG color #AFAFAF - using filter to approximate the gray color */
+  /* #AFAFAF is approximately 68.6% brightness, so we use invert and brightness */
+  filter: brightness(0) saturate(100%) invert(69%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(1.1) contrast(1);
+  transition: filter 0.2s ease;
+}
+
+.logo-carousel__item:hover .logo-carousel__image {
+  filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%);
+}
+
+/* Pause animation on hover */
+.logo-carousel:hover .logo-carousel__track {
+  animation-play-state: paused;
+}
+
+.logo-carousel:hover .logo-carousel__item {
+  animation-play-state: paused;
+}
