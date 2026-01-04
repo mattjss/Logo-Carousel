@@ -25,10 +25,18 @@
       width: 312px;
       height: 312px;
       background-color: #1A1A1A;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .viewport {
+      width: 312px;
+      height: 44px;
+      background-color: transparent;
       overflow: hidden;
       position: relative;
-      padding-left: 24px;
-      padding-right: 24px;
     }
 
     .track {
@@ -43,26 +51,27 @@
     }
 
     @keyframes scroll-up {
-      /* Row 1 to Row 2: 0% - 0.55% (10ms pause), 0.55% - 33.33% (600ms transition) */
+      /* Cycle from bottom to top: Row 3 → Row 2 → Row 1 (within 44px viewport) */
+      /* Row 3 to Row 2: 0% - 0.55% (10ms pause), 0.55% - 33.33% (600ms transition) */
       0%, 0.55% {
-        transform: translateY(0);
+        transform: translateY(0); /* Row 3 visible (starts at 136px, shifted to viewport) */
       }
       33.33% {
-        transform: translateY(44px);
+        transform: translateY(-68px); /* Move up 24px + 44px to show Row 2 */
       }
-      /* Row 2 to Row 3: 33.33% - 33.88% (10ms pause), 33.88% - 66.67% (600ms transition) */
+      /* Row 2 to Row 1: 33.33% - 33.88% (10ms pause), 33.88% - 66.67% (600ms transition) */
       33.88% {
-        transform: translateY(44px);
+        transform: translateY(-68px);
       }
       66.67% {
-        transform: translateY(88px);
+        transform: translateY(-136px); /* Move up another 24px + 44px to show Row 1 */
       }
-      /* Row 3 to Row 1: 66.67% - 67.21% (10ms pause), 67.21% - 100% (600ms transition) */
+      /* Row 1 to Row 3: 66.67% - 67.21% (10ms pause), 67.21% - 100% (600ms transition) */
       67.21% {
-        transform: translateY(88px);
+        transform: translateY(-136px);
       }
       100% {
-        transform: translateY(132px);
+        transform: translateY(0); /* Reset to Row 3 for seamless loop */
       }
     }
 
@@ -70,24 +79,25 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 24px;
+      gap: 12px;
       height: 44px;
       flex-shrink: 0;
+      padding: 0 24px;
     }
 
-    /* Row 1: Centered vertically in container (visible) */
+    /* Row 1: Centered in viewport (visible) */
     .row:nth-child(1) {
-      margin-top: 134px; /* (312px - 44px) / 2 = 134px */
+      margin-top: 0;
     }
 
-    /* Row 2: 24px above Row 1 (hidden) - Row 1 starts at 134px, Row 2 should end at 110px (134px - 24px), so starts at 66px */
+    /* Row 2: 24px below Row 1 (hidden) */
     .row:nth-child(2) {
-      margin-top: -68px; /* 66px - 134px = -68px */
+      margin-top: 24px; /* 44px + 24px = 68px from top */
     }
 
-    /* Row 3: 24px below Row 1 (hidden) - Row 1 ends at 178px (134px + 44px), Row 3 starts at 202px (178px + 24px) */
+    /* Row 3: 24px below Row 2 (hidden) */
     .row:nth-child(3) {
-      margin-top: 92px; /* Row 2 ends at 110px (66px + 44px), so 202px - 110px = 92px */
+      margin-top: 24px; /* 68px + 44px + 24px = 136px from top */
     }
 
     /* Duplicate Row 1: Below Row 3 (hidden) */
@@ -95,10 +105,10 @@
       margin-top: 24px;
     }
 
-    /* Row-specific fade animations */
+    /* Row-specific fade animations - cycle from bottom to top */
     .row:nth-child(1) {
       animation: row1-fade 1.83s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite paused;
-      opacity: 1;
+      opacity: 0;
     }
     
     .row:nth-child(2) {
@@ -108,35 +118,50 @@
     
     .row:nth-child(3) {
       animation: row3-fade 1.83s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite paused;
-      opacity: 0;
+      opacity: 0.25; /* Start at 25% for bottom-to-top cycle */
     }
     
     @keyframes row1-fade {
-      /* Row 1 visible at start and end (after Row 3) */
+      /* Row 1 (1a, 2a, 3a, 4a): fades in from Row 2, then fades out to Row 3 */
       0%, 0.55% {
-        opacity: 1;
+        opacity: 0;
       }
       33.33% {
         opacity: 0;
       }
-      67.21% {
-        opacity: 0;
+      40% {
+        opacity: 0.25; /* Start fade at 25% */
+      }
+      50% {
+        opacity: 1; /* Full opacity */
+      }
+      66.67% {
+        opacity: 1;
       }
       73% {
-        opacity: 1;
+        opacity: 0.25; /* Fade out to 25% */
       }
       100% {
-        opacity: 1;
+        opacity: 0;
       }
     }
     
     @keyframes row2-fade {
-      /* Row 2 visible between Row 1 and Row 3 */
-      0%, 33.33%, 33.88% {
+      /* Row 2 (2a, 2b, 2c, 2d): fades in from Row 3, then fades out to Row 1 */
+      0%, 0.55% {
         opacity: 0;
       }
-      40% {
+      8% {
+        opacity: 0.25; /* Start fade at 25% */
+      }
+      15% {
+        opacity: 1; /* Full opacity */
+      }
+      33.33% {
         opacity: 1;
+      }
+      40% {
+        opacity: 0.25; /* Fade out to 25% */
       }
       66.67% {
         opacity: 0;
@@ -147,12 +172,21 @@
     }
     
     @keyframes row3-fade {
-      /* Row 3 visible between Row 2 and Row 1 */
-      0%, 66.67%, 67.21% {
-        opacity: 0;
+      /* Row 3: fades in at start, then fades out to Row 2 */
+      0%, 0.55% {
+        opacity: 0.25; /* Start at 25% */
       }
-      73% {
+      8% {
+        opacity: 1; /* Full opacity */
+      }
+      15% {
         opacity: 1;
+      }
+      33.33% {
+        opacity: 0.25; /* Fade out to 25% */
+      }
+      40% {
+        opacity: 0;
       }
       100% {
         opacity: 0;
@@ -164,89 +198,56 @@
       width: auto;
       object-fit: contain;
       filter: brightness(0) saturate(100%) invert(69%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(1.1) contrast(1);
-      animation: logo-fade-stagger 1.83s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite paused;
-      will-change: opacity, transform;
+      will-change: opacity, transform, filter;
       backface-visibility: hidden;
     }
 
+    /* All logos animate from bottom with blur to clear - staggered left to right */
+    .logo {
+      animation: logo-blur-animate 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite paused;
+    }
+
+    @keyframes logo-blur-animate {
+      0% {
+        opacity: 0;
+        transform: translateY(20px) translateZ(0);
+        filter: brightness(0) saturate(100%) invert(69%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(1.1) contrast(1) blur(8px);
+      }
+      50% {
+        opacity: 1;
+        transform: translateY(0) translateZ(0);
+        filter: brightness(0) saturate(100%) invert(69%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(1.1) contrast(1) blur(0px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) translateZ(0);
+        filter: brightness(0) saturate(100%) invert(69%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(1.1) contrast(1) blur(0px);
+      }
+    }
+
+    /* Staggered animation delays from left to right */
     .logo:nth-child(1) {
       animation-delay: 0ms;
     }
 
     .logo:nth-child(2) {
-      animation-delay: 2ms;
+      animation-delay: 100ms;
     }
 
     .logo:nth-child(3) {
-      animation-delay: 4ms;
+      animation-delay: 200ms;
     }
 
     .logo:nth-child(4) {
-      animation-delay: 6ms;
+      animation-delay: 300ms;
     }
 
-    @keyframes logo-fade-stagger {
-      /* Row 1 logos: fade out when transitioning to Row 2 */
-      0%, 0.55% {
-        opacity: 1;
-        transform: translateY(0) translateZ(0);
-      }
-      15% {
-        opacity: 0.8;
-        transform: translateY(8px) translateZ(0);
-      }
-      33.33% {
-        opacity: 0;
-        transform: translateY(44px) translateZ(0);
-      }
-      /* Row 2 logos: fade in from Row 1, then fade out when transitioning to Row 3 */
-      33.33%, 33.88% {
-        opacity: 0;
-        transform: translateY(44px) translateZ(0);
-      }
-      38% {
-        opacity: 0.2;
-        transform: translateY(52px) translateZ(0);
-      }
-      40% {
-        opacity: 1;
-        transform: translateY(44px) translateZ(0);
-      }
-      50% {
-        opacity: 1;
-        transform: translateY(44px) translateZ(0);
-      }
-      66.67% {
-        opacity: 0;
-        transform: translateY(88px) translateZ(0);
-      }
-      /* Row 3 logos: fade in from Row 2, then fade out when transitioning back to Row 1 */
-      66.67%, 67.21% {
-        opacity: 0;
-        transform: translateY(88px) translateZ(0);
-      }
-      71% {
-        opacity: 0.2;
-        transform: translateY(96px) translateZ(0);
-      }
-      73% {
-        opacity: 1;
-        transform: translateY(88px) translateZ(0);
-      }
-      83% {
-        opacity: 1;
-        transform: translateY(88px) translateZ(0);
-      }
-      100% {
-        opacity: 0;
-        transform: translateY(132px) translateZ(0);
-      }
-    }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="track">
+    <div class="viewport">
+      <div class="track">
       <!-- Row 1: Perplexity, Anthropic, Grok, OpenAI -->
       <div class="row">
         <img src="public/assets/Perplexity.svg" alt="Perplexity" class="logo" style="--logo-index: 0;">
@@ -273,6 +274,7 @@
       
       <!-- Duplicate Row 1 for seamless loop -->
       <div class="row">
+      </div>
       </div>
     </div>
   </div>
