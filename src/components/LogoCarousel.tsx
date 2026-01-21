@@ -64,7 +64,7 @@ function LogoCarousel() {
   const currentLogos = logoGroups[currentGroup]
 
   return (
-    <div className="relative w-full max-w-xl h-24 flex items-center justify-center overflow-visible">
+    <div className="relative w-full max-w-4xl h-28 flex items-center justify-center overflow-visible">
       <AnimatePresence mode="sync">
         <motion.div
           key={currentGroup}
@@ -86,7 +86,7 @@ function LogoCarousel() {
               <img
                 src={logo.src}
                 alt={logo.name}
-                className="h-6 w-auto object-contain"
+                className="h-16 w-auto object-contain"
                 draggable={false}
               />
             </motion.div>
