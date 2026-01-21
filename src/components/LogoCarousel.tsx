@@ -1,6 +1,7 @@
-import { useState, useEffect, useCallback, useRef } from 'react'
+import { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 
-// Logo data - 12 logos total
+// Logo data - 12 logos split into 3 groups of 4
 const logos = [
   { id: 1, name: 'Cursor', src: '/logos/logo-1.svg' },
   { id: 2, name: 'Contra', src: '/logos/logo-2.svg' },
@@ -16,166 +17,73 @@ const logos = [
   { id: 12, name: 'Unicorn', src: '/logos/logo-12.svg' },
 ]
 
-const NUM_SLOTS = 4
-const LOGOS_PER_SLOT = 3 // Each slot cycles through 3 logos (12 / 4 = 3)
-
 /**
- * Timing Model:
- * - Base cycle interval: 2000ms (time between full cascade cycles)
- * - Stagger delay: 100ms between each slot's swap
- * - Animation duration: 500ms per logo transition
+ * Animation Timing:
+ * - 3 groups of 4 logos, cycling infinitely
+ * - Display duration: 3 seconds per group
+ * - Transition duration: 0.6 seconds
+ * - Stagger delay: 60ms per logo (index * 0.06)
  * 
- * Slot-to-Logo Mapping:
- * - Slot 0 cycles: logos 0, 4, 8  (indices 0, 4, 8)
- * - Slot 1 cycles: logos 1, 5, 9  (indices 1, 5, 9)
- * - Slot 2 cycles: logos 2, 6, 10 (indices 2, 6, 10)
- * - Slot 3 cycles: logos 3, 7, 11 (indices 3, 7, 11)
- * 
- * Each slot shows logo at index: slotIndex + (cycleStep * NUM_SLOTS)
+ * Animation Effects:
+ * - Opacity: 0 → 1 (enter), 1 → 0 (exit)
+ * - Vertical: y: -10 → 0 (enter), y: 0 → 10 (exit)
+ * - Left-to-right stagger creates wave effect
  */
-const CYCLE_INTERVAL = 2000
-const STAGGER_DELAY = 100
-const ANIMATION_DURATION = 500
 
-// Get the logo index for a given slot and cycle step
-function getLogoIndexForSlot(slotIndex: number, cycleStep: number): number {
-  return slotIndex + (cycleStep % LOGOS_PER_SLOT) * NUM_SLOTS
-}
+const LOGOS_PER_GROUP = 4
+const NUM_GROUPS = 3
+const DISPLAY_DURATION = 3000 // 3 seconds per group
+const STAGGER_DELAY = 0.06 // 60ms between each logo
 
-interface SlotState {
-  currentLogoIndex: number
-  previousLogoIndex: number | null
-  isAnimating: boolean
-}
+// Split logos into groups
+const logoGroups = Array.from({ length: NUM_GROUPS }, (_, groupIndex) =>
+  logos.slice(groupIndex * LOGOS_PER_GROUP, (groupIndex + 1) * LOGOS_PER_GROUP)
+)
 
 function LogoCarousel() {
-  // Initialize slots: each slot starts showing its first logo
-  const [slots, setSlots] = useState<SlotState[]>(() =>
-    Array.from({ length: NUM_SLOTS }, (_, slotIndex) => ({
-      currentLogoIndex: getLogoIndexForSlot(slotIndex, 0),
-      previousLogoIndex: null,
-      isAnimating: false,
-    }))
-  )
-  
-  const [cycleStep, setCycleStep] = useState(0)
-  const [isPaused, setIsPaused] = useState(false)
-  const timeoutsRef = useRef<number[]>([])
+  const [currentGroup, setCurrentGroup] = useState(0)
 
-  // Clear all pending timeouts
-  const clearAllTimeouts = useCallback(() => {
-    timeoutsRef.current.forEach(clearTimeout)
-    timeoutsRef.current = []
+  // Auto-advance through groups
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentGroup((prev) => (prev + 1) % NUM_GROUPS)
+    }, DISPLAY_DURATION)
+
+    return () => clearInterval(interval)
   }, [])
 
-  // Trigger a swap for a single slot
-  const swapSlot = useCallback((slotIndex: number, newCycleStep: number) => {
-    const newLogoIndex = getLogoIndexForSlot(slotIndex, newCycleStep)
-    
-    setSlots(prev => {
-      const updated = [...prev]
-      updated[slotIndex] = {
-        currentLogoIndex: newLogoIndex,
-        previousLogoIndex: updated[slotIndex].currentLogoIndex,
-        isAnimating: true,
-      }
-      return updated
-    })
-
-    // Clear animating state after animation completes
-    const timeoutId = window.setTimeout(() => {
-      setSlots(prev => {
-        const updated = [...prev]
-        updated[slotIndex] = {
-          ...updated[slotIndex],
-          previousLogoIndex: null,
-          isAnimating: false,
-        }
-        return updated
-      })
-    }, ANIMATION_DURATION)
-    
-    timeoutsRef.current.push(timeoutId)
-  }, [])
-
-  // Trigger a full cascade cycle with staggered delays
-  const triggerCascade = useCallback(() => {
-    const newCycleStep = cycleStep + 1
-    setCycleStep(newCycleStep)
-
-    // Stagger the swaps across slots
-    for (let i = 0; i < NUM_SLOTS; i++) {
-      const timeoutId = window.setTimeout(() => {
-        swapSlot(i, newCycleStep)
-      }, i * STAGGER_DELAY)
-      timeoutsRef.current.push(timeoutId)
-    }
-  }, [cycleStep, swapSlot])
-
-  // Auto-play effect
-  useEffect(() => {
-    if (isPaused) return
-
-    const intervalId = setInterval(() => {
-      triggerCascade()
-    }, CYCLE_INTERVAL)
-
-    return () => {
-      clearInterval(intervalId)
-      clearAllTimeouts()
-    }
-  }, [isPaused, triggerCascade, clearAllTimeouts])
-
-  // Cleanup on unmount
-  useEffect(() => {
-    return () => clearAllTimeouts()
-  }, [clearAllTimeouts])
-
-  // Hover handlers
-  const handleMouseEnter = () => setIsPaused(true)
-  const handleMouseLeave = () => setIsPaused(false)
+  const currentLogos = logoGroups[currentGroup]
 
   return (
-    <div
-      className="w-[400px] h-[400px] bg-white border border-neutral-200 p-6 flex items-center justify-center shadow-sm select-none"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >
-      {/* Logo slots container */}
-      <div className="w-full flex justify-between items-center gap-4">
-          {slots.map((slot, slotIndex) => (
-            <div
-              key={slotIndex}
-              className="logo-slot w-16 h-16 relative overflow-hidden flex items-center justify-center"
+    <div className="relative w-full max-w-xl h-24 flex items-center justify-center">
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={currentGroup}
+          className="absolute inset-0 flex items-center justify-center gap-5"
+        >
+          {currentLogos.map((logo, index) => (
+            <motion.div
+              key={logo.id}
+              className="flex items-center justify-center h-20"
+              initial={{ opacity: 0, y: 20, filter: "blur(5px)" }}
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              exit={{ opacity: 0, y: -20, filter: "blur(5px)" }}
+              transition={{
+                duration: 0.7,
+                delay: index * STAGGER_DELAY,
+                ease: [0.4, 0.0, 0.2, 1],
+              }}
             >
-              {/* Exiting logo (previous) */}
-              {slot.previousLogoIndex !== null && slot.isAnimating && (
-                <div className="logo-exit absolute inset-0 flex items-center justify-center">
-                  <img
-                    src={logos[slot.previousLogoIndex].src}
-                    alt={logos[slot.previousLogoIndex].name}
-                    className="max-w-full max-h-full object-contain"
-                    draggable={false}
-                  />
-                </div>
-              )}
-              
-              {/* Current logo (entering or at rest) */}
-              <div
-                className={`absolute inset-0 flex items-center justify-center ${
-                  slot.isAnimating ? 'logo-enter' : ''
-                }`}
-              >
-                <img
-                  src={logos[slot.currentLogoIndex].src}
-                  alt={logos[slot.currentLogoIndex].name}
-                  className="max-w-full max-h-full object-contain"
-                  draggable={false}
-                />
-              </div>
-            </div>
+              <img
+                src={logo.src}
+                alt={logo.name}
+                className="h-6 w-auto object-contain"
+                draggable={false}
+              />
+            </motion.div>
           ))}
-      </div>
+        </motion.div>
+      </AnimatePresence>
     </div>
   )
 }
