@@ -1,0 +1,79 @@
+@import "tailwindcss";
+
+@theme {
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+/* Logo Carousel Animation Styles */
+
+/* Logo slot container */
+.logo-slot {
+  position: relative;
+}
+
+/**
+ * Exit animation:
+ * - Moves up and slightly right
+ * - Fades out
+ * - Applies motion blur
+ */
+@keyframes logo-exit {
+  0% {
+    transform: translateY(0) translateX(0);
+    opacity: 1;
+    filter: blur(0);
+  }
+  100% {
+    transform: translateY(-100%) translateX(8px);
+    opacity: 0;
+    filter: blur(1px);
+  }
+}
+
+/**
+ * Enter animation:
+ * - Starts from below and slightly left
+ * - Moves up into place
+ * - Fades in
+ * - Motion blur that relaxes to none
+ */
+@keyframes logo-enter {
+  0% {
+    transform: translateY(100%) translateX(-8px);
+    opacity: 0;
+    filter: blur(1px);
+  }
+  100% {
+    transform: translateY(0) translateX(0);
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+/* Apply exit animation */
+.logo-exit {
+  animation: logo-exit 500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Apply enter animation */
+.logo-enter {
+  animation: logo-enter 500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Reduced motion: disable animations for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .logo-exit,
+  .logo-enter {
+    animation: none;
+  }
+  
+  .logo-exit {
+    opacity: 0;
+  }
+  
+  .logo-enter {
+    transform: none;
+    opacity: 1;
+    filter: none;
+  }
+}
