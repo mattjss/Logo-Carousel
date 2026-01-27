@@ -1,11 +1,7 @@
-import LogoCarousel from './components/LogoCarousel'
+import ProductCardPreview from './components/ProductCardPreview'
 
 function App() {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-black">
-      <LogoCarousel />
-    </div>
-  )
+  return <ProductCardPreview />
 }
 
 export default App

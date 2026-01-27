@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Logo Carousel - Product Card Preview</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      background: #1a1a1a;
+      padding: 40px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+      align-items: center;
+    }
+    
+    .preview-container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      align-items: center;
+    }
+    
+    .card-label {
+      color: #888;
+      font-size: 12px;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .product-card {
+      background: #fff;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .product-card-306 {
+      width: 306px;
+      height: 246px;
+    }
+    
+    .product-card-363 {
+      width: 363px;
+      height: 303px;
+    }
+    
+    .product-card-424 {
+      width: 424px;
+      height: 362px;
+    }
+    
+    .carousel-container {
+      width: 100%;
+      max-width: 384px;
+      height: 64px;
+      background: #000;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 24px;
+    }
+    
+    .logo-placeholder {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .logo-box {
+      width: 24px;
+      height: 24px;
+      background: #F1F1F1;
+      border-radius: 2px;
+      opacity: 0.8;
+    }
+    
+    .note {
+      color: #666;
+      font-size: 11px;
+      margin-top: 12px;
+      text-align: center;
+      max-width: 300px;
+    }
+  </style>
+</head>
+<body>
+  <h1 style="color: #fff; margin-bottom: 20px;">Logo Carousel - Product Card Preview</h1>
+  
+  <div class="preview-container">
+    <div>
+      <div class="card-label">306 × 246</div>
+      <div class="product-card product-card-306">
+        <div class="carousel-container">
+          <div class="logo-placeholder">
+            <div class="logo-box"></div>
+            <div class="logo-box"></div>
+            <div class="logo-box"></div>
+            <div class="logo-box"></div>
+          </div>
+        </div>
+        <div class="note">Carousel fits with 24px padding on sides</div>
+      </div>
+    </div>
+    
+    <div>
+      <div class="card-label">363 × 303</div>
+      <div class="product-card product-card-363">
+        <div class="carousel-container">
+          <div class="logo-placeholder">
+            <div class="logo-box"></div>
+            <div class="logo-box"></div>
+            <div class="logo-box"></div>
+            <div class="logo-box"></div>
+          </div>
+        </div>
+        <div class="note">More breathing room in larger card</div>
+      </div>
+    </div>
+    
+    <div>
+      <div class="card-label">424 × 362</div>
+      <div class="product-card product-card-424">
+        <div class="carousel-container">
+          <div class="logo-placeholder">
+            <div class="logo-box"></div>
+            <div class="logo-box"></div>
+            <div class="logo-box"></div>
+            <div class="logo-box"></div>
+          </div>
+        </div>
+        <div class="note">Largest card with comfortable spacing</div>
+      </div>
+    </div>
+  </div>
+  
+  <div style="color: #888; font-size: 12px; margin-top: 20px; text-align: center;">
+    <p>Carousel specs: 24px logos, 16px gap, 24px side padding</p>
+    <p>Container: max-w-sm (384px), h-16 (64px)</p>
+  </div>
+</body>
+</html>
