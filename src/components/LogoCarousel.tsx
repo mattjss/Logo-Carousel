@@ -64,16 +64,16 @@ function LogoCarousel() {
   const currentLogos = logoGroups[currentGroup]
 
   return (
-    <div className="relative w-full max-w-4xl h-28 flex items-center justify-center overflow-visible">
+    <div className="relative w-full max-w-sm h-16 flex items-center justify-center overflow-visible">
       <AnimatePresence mode="sync">
         <motion.div
           key={currentGroup}
-          className="absolute inset-0 flex items-center justify-center gap-5 overflow-visible"
+          className="absolute inset-0 flex items-center justify-center gap-4 overflow-visible px-6"
         >
           {currentLogos.map((logo, index) => (
             <motion.div
               key={logo.id}
-              className="flex items-center justify-center h-20"
+              className="flex items-center justify-center h-10"
               initial={{ opacity: 0, y: 20, filter: "blur(6px)" }}
               animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
               exit={{ opacity: 0, y: -20, filter: "blur(6px)" }}
@@ -86,7 +86,7 @@ function LogoCarousel() {
               <img
                 src={logo.src}
                 alt={logo.name}
-                className="h-16 w-auto object-contain"
+                className="h-6 w-auto object-contain invert"
                 draggable={false}
               />
             </motion.div>

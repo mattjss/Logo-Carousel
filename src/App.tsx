@@ -2,7 +2,7 @@ import LogoCarousel from './components/LogoCarousel'
 
 function App() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-neutral-100">
+    <div className="min-h-screen flex items-center justify-center bg-black">
       <LogoCarousel />
     </div>
   )
