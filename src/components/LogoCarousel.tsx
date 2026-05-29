@@ -19,7 +19,7 @@ const logos = [
   // Group 3
   { id: 9,  name: 'Perplexity',src: `${import.meta.env.BASE_URL}logos/logo-8.svg`,  h: 20 },
   { id: 10, name: 'OpenAI',    src: `${import.meta.env.BASE_URL}logos/logo-7.svg`,  h: 20 },
-  { id: 11, name: 'Vercel',    src: `${import.meta.env.BASE_URL}logos/logo-5.svg`,  h: 12 },
+  { id: 11, name: 'Vercel',    src: `${import.meta.env.BASE_URL}logos/logo-5.svg`,  h: 9 },
   { id: 12, name: 'Grok',      src: `${import.meta.env.BASE_URL}logos/logo-10.svg`, h: 20 },
 ]
 
@@ -87,7 +87,7 @@ function LogoCarousel() {
                 src={logo.src}
                 alt={logo.name}
                 className="w-auto object-contain invert"
-                style={{ height: logo.h }}
+                style={{ height: `${logo.h}px` }}
                 draggable={false}
               />
             </motion.div>
