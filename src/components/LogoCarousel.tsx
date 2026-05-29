@@ -7,20 +7,20 @@ import { motion, AnimatePresence } from 'framer-motion'
 // Group 3: Perplexity, OpenAI, Anthropic, Grok
 const logos = [
   // Group 1
-  { id: 1, name: 'Cursor', src: `${import.meta.env.BASE_URL}logos/logo-1.svg' },
-  { id: 2, name: 'Paper', src: `${import.meta.env.BASE_URL}logos/logo-4.svg' },
-  { id: 3, name: 'Unicorn', src: `${import.meta.env.BASE_URL}logos/logo-12.svg' },
-  { id: 4, name: 'Figma', src: `${import.meta.env.BASE_URL}logos/logo-9.svg' },
+  { id: 1, name: 'Cursor', src: `${import.meta.env.BASE_URL}logos/logo-1.svg` },
+  { id: 2, name: 'Paper', src: `${import.meta.env.BASE_URL}logos/logo-4.svg` },
+  { id: 3, name: 'Unicorn', src: `${import.meta.env.BASE_URL}logos/logo-12.svg` },
+  { id: 4, name: 'Figma', src: `${import.meta.env.BASE_URL}logos/logo-9.svg` },
   // Group 2
-  { id: 5, name: 'Contra', src: `${import.meta.env.BASE_URL}logos/logo-2.svg' },
-  { id: 6, name: 'Framer', src: `${import.meta.env.BASE_URL}logos/logo-3.svg' },
-  { id: 7, name: 'MagicPath', src: `${import.meta.env.BASE_URL}logos/logo-6.svg' },
-  { id: 8, name: 'Supabase', src: `${import.meta.env.BASE_URL}logos/logo-11.svg' },
+  { id: 5, name: 'Contra', src: `${import.meta.env.BASE_URL}logos/logo-2.svg` },
+  { id: 6, name: 'Framer', src: `${import.meta.env.BASE_URL}logos/logo-3.svg` },
+  { id: 7, name: 'MagicPath', src: `${import.meta.env.BASE_URL}logos/logo-6.svg` },
+  { id: 8, name: 'Supabase', src: `${import.meta.env.BASE_URL}logos/logo-11.svg` },
   // Group 3
-  { id: 9, name: 'Perplexity', src: `${import.meta.env.BASE_URL}logos/logo-8.svg' },
-  { id: 10, name: 'OpenAI', src: `${import.meta.env.BASE_URL}logos/logo-7.svg' },
-  { id: 11, name: 'Anthropic', src: `${import.meta.env.BASE_URL}logos/logo-5.svg' },
-  { id: 12, name: 'Grok', src: `${import.meta.env.BASE_URL}logos/logo-10.svg' },
+  { id: 9, name: 'Perplexity', src: `${import.meta.env.BASE_URL}logos/logo-8.svg` },
+  { id: 10, name: 'OpenAI', src: `${import.meta.env.BASE_URL}logos/logo-7.svg` },
+  { id: 11, name: 'Anthropic', src: `${import.meta.env.BASE_URL}logos/logo-5.svg` },
+  { id: 12, name: 'Grok', src: `${import.meta.env.BASE_URL}logos/logo-10.svg` },
 ]
 
 /**
