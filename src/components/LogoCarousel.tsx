@@ -12,7 +12,7 @@ const logos = [
   { id: 3, name: 'Unicorn', src: `${import.meta.env.BASE_URL}logos/logo-12.svg` },
   { id: 4, name: 'Figma', src: `${import.meta.env.BASE_URL}logos/logo-9.svg` },
   // Group 2
-  { id: 5, name: 'Contra', src: `${import.meta.env.BASE_URL}logos/logo-2.svg` },
+  { id: 5, name: 'Claude', src: `${import.meta.env.BASE_URL}logos/logo-2.svg` },
   { id: 6, name: 'Framer', src: `${import.meta.env.BASE_URL}logos/logo-3.svg` },
   { id: 7, name: 'MagicPath', src: `${import.meta.env.BASE_URL}logos/logo-6.svg` },
   { id: 8, name: 'Supabase', src: `${import.meta.env.BASE_URL}logos/logo-11.svg` },
