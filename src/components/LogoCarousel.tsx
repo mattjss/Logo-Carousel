@@ -19,7 +19,7 @@ const logos = [
   // Group 3
   { id: 9, name: 'Perplexity', src: `${import.meta.env.BASE_URL}logos/logo-8.svg` },
   { id: 10, name: 'OpenAI', src: `${import.meta.env.BASE_URL}logos/logo-7.svg` },
-  { id: 11, name: 'Anthropic', src: `${import.meta.env.BASE_URL}logos/logo-5.svg` },
+  { id: 11, name: 'Vercel', src: `${import.meta.env.BASE_URL}logos/logo-5.svg` },
   { id: 12, name: 'Grok', src: `${import.meta.env.BASE_URL}logos/logo-10.svg` },
 ]
 
