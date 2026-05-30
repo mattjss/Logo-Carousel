@@ -4,6 +4,13 @@
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 }
 
+@layer base {
+  *, *::before, *::after {
+    border-width: 0;
+    outline: none;
+  }
+}
+
 /* Reduced motion: disable animations */
 @media (prefers-reduced-motion: reduce) {
   * {
