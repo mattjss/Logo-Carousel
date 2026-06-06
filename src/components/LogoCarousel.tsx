@@ -23,36 +23,18 @@ const logos = [
   { id: 12, name: 'Grok',      src: `${import.meta.env.BASE_URL}logos/logo-10.svg`, h: 20 },
 ]
 
-/**
- * Animation Timing:
- * - 3 groups of 4 logos, cycling infinitely
- * - Display duration: 3 seconds per group
- * - Transition duration: 1.0 seconds (slower for smooth blur)
- * - Stagger delay: 100ms per logo (visible wave effect)
- * 
- * Animation Effects:
- * - Opacity: 0 → 1 (enter), 1 → 0 (exit)
- * - Vertical: y: 20 → 0 (enter from below), y: 0 → -20 (exit upward)
- * - Symmetric blur: 6px on BOTH incoming and outgoing, 0px at rest
- * - Left-to-right stagger creates visible wave effect
- * 
- * CRITICAL: mode="sync" allows incoming/outgoing logos to overlap!
- */
-
 const LOGOS_PER_GROUP = 4
 const NUM_GROUPS = 3
-const DISPLAY_DURATION = 3000 // 3 seconds per group
-const STAGGER_DELAY = 0.1 // 100ms between each logo for visible wave
+const DISPLAY_DURATION = 3000
+const STAGGER_DELAY = 0.1
 
-// Split logos into groups
 const logoGroups = Array.from({ length: NUM_GROUPS }, (_, groupIndex) =>
   logos.slice(groupIndex * LOGOS_PER_GROUP, (groupIndex + 1) * LOGOS_PER_GROUP)
 )
 
-function LogoCarousel() {
+function LogoCarousel({ theme = 'dark' }: { theme?: 'dark' | 'light' }) {
   const [currentGroup, setCurrentGroup] = useState(0)
 
-  // Auto-advance through groups
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentGroup((prev) => (prev + 1) % NUM_GROUPS)
@@ -86,7 +68,7 @@ function LogoCarousel() {
               <img
                 src={logo.src}
                 alt={logo.name}
-                className="w-auto object-contain invert"
+                className={`w-auto object-contain ${theme === 'dark' ? 'invert' : ''}`}
                 style={{ height: `${logo.h}px` }}
                 draggable={false}
               />
