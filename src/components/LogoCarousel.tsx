@@ -3,8 +3,10 @@ import { motion, AnimatePresence } from 'framer-motion'
 
 // Logo data - 12 logos split into 3 groups of 4
 // Group 1: Cursor, Paper, Unicorn, Figma
-// Group 2: Contra, Framer, MagicPath, Supabase
-// Group 3: Perplexity, OpenAI, Anthropic, Grok
+// Group 2: Claude, Framer, MagicPath, Supabase
+// Group 3: Perplexity, OpenAI, Vercel, Grok
+// All SVGs use viewBox="0 0 48 10" with ~70% vertical ink fill so one shared
+// display height reads optically even. No per-logo nudges needed after normalize.
 const logos = [
   // Group 1
   { id: 1,  name: 'Cursor',    src: `${import.meta.env.BASE_URL}logos/logo-1.svg`,  h: 20 },
@@ -19,7 +21,7 @@ const logos = [
   // Group 3
   { id: 9,  name: 'Perplexity',src: `${import.meta.env.BASE_URL}logos/logo-8.svg`,  h: 20 },
   { id: 10, name: 'OpenAI',    src: `${import.meta.env.BASE_URL}logos/logo-7.svg`,  h: 20 },
-  { id: 11, name: 'Vercel',    src: `${import.meta.env.BASE_URL}logos/logo-5.svg`,  h: 9 },
+  { id: 11, name: 'Vercel',    src: `${import.meta.env.BASE_URL}logos/logo-5.svg`,  h: 20 },
   { id: 12, name: 'Grok',      src: `${import.meta.env.BASE_URL}logos/logo-10.svg`, h: 20 },
 ]
 
