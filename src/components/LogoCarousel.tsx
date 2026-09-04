@@ -5,24 +5,24 @@ import { motion, AnimatePresence } from 'framer-motion'
 // Group 1: Cursor, Paper, Unicorn, Figma
 // Group 2: Claude, Framer, MagicPath, Supabase
 // Group 3: Perplexity, OpenAI, Vercel, Grok
-// All SVGs use viewBox="0 0 48 10" with ~70% vertical ink fill so one shared
-// display height reads optically even. No per-logo nudges needed after normalize.
+// SVGs use viewBox="0 0 48 10". Optical balance: Vercel padded (~57% ink);
+// Figma/Grok/Perplexity scaled up (~84–86% ink). Light per-logo h nudges too.
 const logos = [
   // Group 1
   { id: 1,  name: 'Cursor',    src: `${import.meta.env.BASE_URL}logos/logo-1.svg`,  h: 20 },
   { id: 2,  name: 'Paper',     src: `${import.meta.env.BASE_URL}logos/logo-4.svg`,  h: 20 },
   { id: 3,  name: 'Unicorn',   src: `${import.meta.env.BASE_URL}logos/logo-12.svg`, h: 20 },
-  { id: 4,  name: 'Figma',     src: `${import.meta.env.BASE_URL}logos/logo-9.svg`,  h: 20 },
+  { id: 4,  name: 'Figma',     src: `${import.meta.env.BASE_URL}logos/logo-9.svg`,  h: 22 },
   // Group 2
   { id: 5,  name: 'Claude',    src: `${import.meta.env.BASE_URL}logos/logo-2.svg`,  h: 20 },
   { id: 6,  name: 'Framer',    src: `${import.meta.env.BASE_URL}logos/logo-3.svg`,  h: 20 },
   { id: 7,  name: 'MagicPath', src: `${import.meta.env.BASE_URL}logos/logo-6.svg`,  h: 20 },
   { id: 8,  name: 'Supabase',  src: `${import.meta.env.BASE_URL}logos/logo-11.svg`, h: 20 },
   // Group 3
-  { id: 9,  name: 'Perplexity',src: `${import.meta.env.BASE_URL}logos/logo-8.svg`,  h: 20 },
+  { id: 9,  name: 'Perplexity',src: `${import.meta.env.BASE_URL}logos/logo-8.svg`,  h: 23 },
   { id: 10, name: 'OpenAI',    src: `${import.meta.env.BASE_URL}logos/logo-7.svg`,  h: 20 },
-  { id: 11, name: 'Vercel',    src: `${import.meta.env.BASE_URL}logos/logo-5.svg`,  h: 20 },
-  { id: 12, name: 'Grok',      src: `${import.meta.env.BASE_URL}logos/logo-10.svg`, h: 20 },
+  { id: 11, name: 'Vercel',    src: `${import.meta.env.BASE_URL}logos/logo-5.svg`,  h: 17 },
+  { id: 12, name: 'Grok',      src: `${import.meta.env.BASE_URL}logos/logo-10.svg`, h: 23 },
 ]
 
 const LOGOS_PER_GROUP = 4
